@@ -18,6 +18,7 @@ while True:
         if(grovepi.digitalRead(button_port)):
         	time.sleep(0.1)
         	range_val = grovepi.ultrasonicRead(ultrasonic_ranger)
+        	time.sleep(0.1)
         	print(range_val)
 
     except Exception as e:
