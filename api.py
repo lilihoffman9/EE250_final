@@ -4,15 +4,15 @@ import panda as np
 
 from kaggle_secrets import UserSecretsClient
 user_secrets = UserSecretsClient()
-auth = (user_secrets.get_secret("kroger_api_name"),
-          user_secrets.get_secret("kroger_api_pw"))
+auth = (user_secrets.get_secret("final-2a1585a864d9e67627c6ae04c807a2c53211770964979935989"),
+          user_secrets.get_secret("9y5H9SgdaK6BYUijI8ZLnznt63MKszrDI3M0i1zW"))
 
 # Use our stored credentials to get a "token" which authorizes all of our other requests.
 # This is easier than regular Oauth because we don't need access to some random user's stuff.
-headers = {"Content-Type":"application/x-www-form-urlencoded"}
-x = requests.post("https://api.kroger.com/v1/connect/oauth2/token", 
-                  data={"grant_type":"client_credentials","scope":"product.compact"}, headers=headers, auth=auth)
-token = x.json()['access_token']
+#headers = {"Content-Type":"application/x-www-form-urlencoded"}
+#x = requests.post("https://api.kroger.com/v1/connect/oauth2/token", 
+#                  data={"grant_type":"client_credentials","scope":"product.compact"}, headers=headers, auth=auth)
+#token = x.json()['access_token']
 
 # Here we search for nearby stores based on a zipcode
 
