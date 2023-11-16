@@ -16,6 +16,7 @@ while True:
     try:
         # Read distance value from Ultrasonic
         if(grovepi.digitalRead(button_port)):
+        	time.sleep(0.1)
         	range_val = grovepi.ultrasonicRead(ultrasonic_ranger)
         	print(range_val)
 
