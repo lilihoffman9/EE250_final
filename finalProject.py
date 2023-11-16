@@ -11,7 +11,8 @@ ultrasonic_ranger = 4
 while True:
     try:
         # Read distance value from Ultrasonic
-        print(grovepi.ultrasonicRead(ultrasonic_ranger))
+        range_val = grovepi.ultrasonicRead(ultrasonic_ranger)
+        print(range_val)
 
     except Exception as e:
         print ("Error:{}".format(e))
