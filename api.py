@@ -53,5 +53,5 @@ for index, row in df.iterrows():
         color='red',
         fill_color='red').add_to(turkey_map_normal)
 
-#turkey_map_normal
+turkey_map_normal
 
