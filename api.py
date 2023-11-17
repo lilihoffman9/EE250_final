@@ -1,43 +1,37 @@
-import requests
+import os
 import json
-import panda as np
+import time 
+import requests
+import geopandas as gpd
 
-from kaggle_secrets import UserSecretsClient
-user_secrets = UserSecretsClient()
-auth = (user_secrets.get_secret("final-2a1585a864d9e67627c6ae04c807a2c53211770964979935989"),
-          user_secrets.get_secret("9y5H9SgdaK6BYUijI8ZLnznt63MKszrDI3M0i1zW"))
+#set string of url with ultrasonic ranger value in the max radius slot
+response =requests.get('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=34&longitude=118&maxradiuskm=10000')
 
-# Use our stored credentials to get a "token" which authorizes all of our other requests.
-# This is easier than regular Oauth because we don't need access to some random user's stuff.
-#headers = {"Content-Type":"application/x-www-form-urlencoded"}
-#x = requests.post("https://api.kroger.com/v1/connect/oauth2/token", 
-#                  data={"grant_type":"client_credentials","scope":"product.compact"}, headers=headers, auth=auth)
-#token = x.json()['access_token']
+response = response.json()
+response['features'][0]
 
-# Here we search for nearby stores based on a zipcode
+exportDf = gpd.GeoDataFrame()
 
-zipcode_str = "48198"          # We can also seach like: filter.latLong.near=39.306346,-84.278902
-search_radius_miles = 20
-max_results = 200              # 200 is the maximu allowed
-chain = "Kroger"               # The Kroger company owns other grocery chains, gas stations, etc.
+for i, data in enumerate(response['features']):  
+    gdf = gpd.GeoDataFrame()
+    coord = data['geometry']['coordinates']
+    geometry = gpd.points_from_xy([coord[0]], [coord[1]])
+    gdf = gpd.GeoDataFrame(data['properties'], index = [i], geometry = geometry, crs='EPSG:4326')
+    gdf = gdf[['mag', 'place', 'time', 'alert','status','tsunami', 'geometry']]
+    gdf['time'] = time.strftime('%Y-%m-%d', time.gmtime(gdf['time'][i]/1000))
+    exportDf = exportDf.append(gdf)
 
-headers = {"Authorization": "Bearer " + token}
-params = {"filter.zipCode.near":zipcode_str, 
-          "filter.limit":max_results,
-          "filter.radiusInMiles":search_radius_miles,
-          "filter.chain":chain}
-resp = requests.get("https://api.kroger.com/v1/locations", headers=headers, params=params)
-print("done")
+if exportDf.crs == None:
+    exportDf.set_crs('epsg:4326', inplace=True)
 
-# The response is JSON. And the "data" part an array of store objects.
-stores = resp.json()["data"]
-print("Found " + str(len(stores)) + " stores.")
+directory = 'earthquakes'
+name = strftime("%Y%m%d", time.localtime())
+filename = os.path.join(directory, name + '.gpkg')
+layername = "_".join([strftime("%H", time.localtime()), str(len(response['features']))])
 
-# Let's look at the first store object
-print(json.dumps(stores[0], indent=4))
+exportDf.to_file(driver='GPKG', 
+                 filename=filename, 
+                 layer=layername, 
+                 encoding='utf-8')
+print(f'Export {name} {layername} sucessfull')
 
-# List stores in descending order of how many departments they have
-
-sorted([str(len(store["departments"]))+" departments at store:" +
-        store["locationId"]+" "+store["name"]+",   "+store["address"]["addressLine1"]+" "+store["address"]["city"]
-        for store in stores],reverse=True)
