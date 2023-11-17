@@ -1,37 +1,23 @@
-import os
-import json
-import time 
 import requests
-import geopandas as gpd
+import pandas as pd
+import folium
+from folium.plugins import HeatMap
 
-#set string of url with ultrasonic ranger value in the max radius slot
-response =requests.get('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=34&longitude=118&maxradiuskm=10000')
 
-response = response.json()
-response['features'][0]
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.float_format', lambda x: '%.3f' % x)
+pd.set_option('display.expand_frame_repr', False)
+pd.set_option('display.width', 500)
 
-exportDf = gpd.GeoDataFrame()
+start_time = 'now-180days'
+min_magnitude = 3
+latitude = 39.1458
+longitude = 34.1614
+max_radius_km = 1500
 
-for i, data in enumerate(response['features']):  
-    gdf = gpd.GeoDataFrame()
-    coord = data['geometry']['coordinates']
-    geometry = gpd.points_from_xy([coord[0]], [coord[1]])
-    gdf = gpd.GeoDataFrame(data['properties'], index = [i], geometry = geometry, crs='EPSG:4326')
-    gdf = gdf[['mag', 'place', 'time', 'alert','status','tsunami', 'geometry']]
-    gdf['time'] = time.strftime('%Y-%m-%d', time.gmtime(gdf['time'][i]/1000))
-    exportDf = exportDf.append(gdf)
+url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
+dataset = url.json()
 
-if exportDf.crs == None:
-    exportDf.set_crs('epsg:4326', inplace=True)
-
-directory = 'earthquakes'
-name = strftime("%Y%m%d", time.localtime())
-filename = os.path.join(directory, name + '.gpkg')
-layername = "_".join([strftime("%H", time.localtime()), str(len(response['features']))])
-
-exportDf.to_file(driver='GPKG', 
-                 filename=filename, 
-                 layer=layername, 
-                 encoding='utf-8')
-print(f'Export {name} {layername} sucessfull')
-
+url
+<Output:> <Response [200]>
