@@ -19,5 +19,4 @@ max_radius_km = 1500
 url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
 dataset = url.json()
 
-url
-<Output:> <Response [200]>
+
