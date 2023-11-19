@@ -12,8 +12,8 @@ pd.set_option('display.width', 500)
 
 start_time = 'now-180days'
 min_magnitude = 3
-latitude = 34.0224
-longitude = 118.2851
+latitude = 30.0224
+longitude = 30.2851
 max_radius_km = 1500
 
 url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
@@ -41,7 +41,7 @@ data = {'Latitude': lats,
 	'Weight': weights}
 df = pd.DataFrame(data)
 
-turkey_coord = [39, 35]
+turkey_coord = [latitude, longitude]
 turkey_map_normal = folium.Map(location=turkey_coord, zoom_start=5.5)
 
 HeatMap(data=df[['Latitude', 'Longitude', 'Weight']], radius=15).add_to(turkey_map_normal)
