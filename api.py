@@ -1,7 +1,9 @@
 import requests
 import pandas as pd
 import folium
+import grovepi
 from folium.plugins import HeatMap
+from finalProject
 
 
 pd.set_option('display.max_columns', None)
@@ -10,10 +12,12 @@ pd.set_option('display.float_format', lambda x: '%.3f' % x)
 pd.set_option('display.expand_frame_repr', False)
 pd.set_option('display.width', 500)
 
+print(finalProject.range_val)
+
 start_time = 'now-180days'
 min_magnitude = 3
-latitude = 30.0224
-longitude = 30.2851
+latitude = 34.0224
+longitude = -118.3
 max_radius_km = 1500
 
 url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
