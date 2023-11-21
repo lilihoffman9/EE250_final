@@ -3,7 +3,7 @@ import pandas as pd
 import folium
 import grovepi
 from folium.plugins import HeatMap
-from finalProject
+from finalProject import *
 
 
 pd.set_option('display.max_columns', None)
