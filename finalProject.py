@@ -18,6 +18,7 @@ def read_sensor_data():
 client = mqtt.Client()
 
 # Connect to the broker
+time.sleep(5) 
 client.connect(broker_address, port, keepalive=60)
 
 # set I2C to use the hardware bus
