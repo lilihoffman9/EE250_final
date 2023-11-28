@@ -16,14 +16,11 @@ broker_address = "eclipse.usc.edu"
 port = 1883
 topic = "sensor/data"
 radius = 1500
-run_ml = 0
 
 # Callback when a message is received
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
     radius = (int(msg.payload)*1000)
-    global run_ml
-    run_ml = 1
     print(f"Set max radius: {radius}")
 
 pd.set_option('display.max_columns', None)
@@ -77,57 +74,56 @@ client.loop_start()
 
 while True:
 	time.sleep(1)
-	if run_ml:
-		for feature in features:
-		    mags.append(feature['properties']['mag'])
-		    lats.append(feature['geometry']['coordinates'][1])
-		    lons.append(feature['geometry']['coordinates'][0])
+	for feature in features:
+		mags.append(feature['properties']['mag'])
+		lats.append(feature['geometry']['coordinates'][1])
+		lons.append(feature['geometry']['coordinates'][0])
 		
-		dataml = {'Latitude': lats,
-			'Longitude': lons,
-			'Magnitude': mags}
-		dfml = pd.DataFrame(dataml)
-		dfml.to_csv("output.csv", index=False)
+	dataml = {'Latitude': lats,
+		'Longitude': lons,
+		'Magnitude': mags}
+	dfml = pd.DataFrame(dataml)
+	dfml.to_csv("output.csv", index=False)
 		
-		plotdata = pd.read_csv("output.csv")
-		plotdata.head(10)
+	plotdata = pd.read_csv("output.csv")
+	plotdata.head(10)
 		
-		# test train split
-		X = plotdata[['Latitude', 'Longitude']]
-		y = plotdata[['Magnitude']]
-		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-		print(X_train.shape, X_test.shape, y_train.shape, X_test.shape)
+	# test train split
+	X = plotdata[['Latitude', 'Longitude']]
+	y = plotdata[['Magnitude']]
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+	print(X_train.shape, X_test.shape, y_train.shape, X_test.shape)
 		
-		from sklearn.linear_model import LinearRegression
+	from sklearn.linear_model import LinearRegression
 		
-		# Train the linear regression model
-		regressor = LinearRegression()
-		regressor.fit(X_train, y_train)
+	# Train the linear regression model
+	regressor = LinearRegression()
+	regressor.fit(X_train, y_train)
 		
-		from sklearn.metrics import r2_score, mean_squared_error
+	from sklearn.metrics import r2_score, mean_squared_error
 		
-		scores= {"Model name": ["Linear regression", "SVM", "Random Forest"], "mse": [], "R^2": []}
+	scores= {"Model name": ["Linear regression", "SVM", "Random Forest"], "mse": [], "R^2": []}
 		
-		# Predict on the testing set
-		y_pred = regressor.predict(X_test)
+	# Predict on the testing set
+	y_pred = regressor.predict(X_test)
 		
-		# Compute R^2 and MSE
-		r2 = r2_score(y_test, y_pred)
-		mse = mean_squared_error(y_test, y_pred)
+	# Compute R^2 and MSE
+	r2 = r2_score(y_test, y_pred)
+	mse = mean_squared_error(y_test, y_pred)
 		
-		scores['mse'].append(mse)
-		scores['R^2'].append(r2)
+	scores['mse'].append(mse)
+	scores['R^2'].append(r2)
 		
-		print("R^2: {:.2f}, MSE: {:.2f}".format(r2, mse))
+	print("R^2: {:.2f}, MSE: {:.2f}".format(r2, mse))
 		
-		import seaborn as sns
-		import matplotlib.pyplot as plt
+	import seaborn as sns
+	import matplotlib.pyplot as plt
 		
-		# Plot the regression line
-		sns.regplot(x=X_test['Latitude'], y=y_test, color='blue', scatter_kws={'s': 10})
-		sns.regplot(x=X_test['Longitude'], y=y_test, color='red', scatter_kws={'s': 10})
-		plt.legend(labels=['Latitude', 'Longitude'])
-		plt.title('Multiple Linear Regression Model')
-		plt.xlabel('Predictor Variables')
-		plt.ylabel('Magnitude')
-		plt.show()
+	# Plot the regression line
+	sns.regplot(x=X_test['Latitude'], y=y_test, color='blue', scatter_kws={'s': 10})
+	sns.regplot(x=X_test['Longitude'], y=y_test, color='red', scatter_kws={'s': 10})
+	plt.legend(labels=['Latitude', 'Longitude'])
+	plt.title('Multiple Linear Regression Model')
+	plt.xlabel('Predictor Variables')
+	plt.ylabel('Magnitude')
+	plt.show()
