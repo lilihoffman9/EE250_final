@@ -7,7 +7,7 @@ import socket
 
 broker_address = "eclipse.usc.edu"
 port = 1883
-topic = "sensor_data"
+topic = "sensor/data"
 
 # Callback when a message is received
 def on_message(client, userdata, msg):
