@@ -55,7 +55,7 @@ df.to_csv("output.csv", index=False)
 coins = pd.read_csv("output.csv")
 coins.head(10)
 
-sns.scatterplot(x="latitude",y="longitude",data=coins)
+sns.scatterplot(x="mag",y="rms",data=coins)
 
 # test train split
 X = coins[["mag"]].to_numpy()
