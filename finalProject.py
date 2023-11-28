@@ -3,6 +3,7 @@ import time
 import sys
 import paho.mqtt.client as mqtt
 
+
 broker_address = "192.168.64.5"
 port = 1883
 topic = "sensor_data"
