@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 import folium
-import grovepi
 from folium.plugins import HeatMap
 from finalProject import *
 
