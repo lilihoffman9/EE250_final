@@ -5,8 +5,8 @@ from folium.plugins import HeatMap
 import paho.mqtt.client as mqtt
 import socket
 
-broker_address = "127.0.0.1"
-port = 1883
+broker_address = "eclipse.usc.edu"
+port = 11000
 topic = "sensor_data"
 
 # Callback when a message is received

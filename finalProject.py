@@ -5,10 +5,10 @@ import paho.mqtt.client as mqtt
 import socket
 
 
-broker_address = "192.168.64.1"
+broker_address = "eclipse.usc.edu"
 #172.20.10.6 (or 2)
 #127.0.0.1
-port = 1883
+port = 11000
 topic = "sensor_data"
 range_val = 5
 
