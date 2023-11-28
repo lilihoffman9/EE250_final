@@ -34,7 +34,7 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 client.subscribe(topic)
 
 # Start the MQTT loop to listen for messages
-client.loop_forever()
+client.loop_start()
 
 start_time = 'now-180days'
 min_magnitude = 3
