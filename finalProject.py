@@ -23,9 +23,9 @@ while True:
         	time.sleep(0.1)
         	range_val = grovepi.ultrasonicRead(ultrasonic_ranger)
         	time.sleep(0.1)
-        	publish.single(MQTT_PATH, range_val, hostname=MQTT_SERVER)
+        	
         	print(range_val)
-
+		publish.single(MQTT_PATH, range_val, hostname=MQTT_SERVER)
     except Exception as e:
         print ("Error:{}".format(e))
     
