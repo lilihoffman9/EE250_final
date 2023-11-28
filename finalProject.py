@@ -39,7 +39,7 @@ while True:
         	time.sleep(0.1)
         	range_val = read_sensor_data()
         	time.sleep(0.1)
-        	client.publish(topic, payload=str(sensor_data), qos=0)
+        	client.publish(topic, payload=str(range_val), qos=0)
         	time.sleep(0.1)
         	print(range_val)
     except Exception as e:
