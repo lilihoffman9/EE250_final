@@ -8,11 +8,12 @@ import socket
 broker_address = "eclipse.usc.edu"
 port = 1883
 topic = "sensor/data"
+radius = 1500
 
 # Callback when a message is received
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
-    max_radius_km = (int(msg.payload)*1000)
+    radius = (int(msg.payload)*1000)
     print(f"Set max radius: {max_radius_km}")
 
 pd.set_option('display.max_columns', None)
@@ -41,7 +42,7 @@ min_magnitude = 3
 latitude = 34.0224
 longitude = -118.3
 
-url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
+url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={radius}')
 dataset = url.json()
 
 features = dataset['features']
