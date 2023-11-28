@@ -55,11 +55,11 @@ df.to_csv("output.csv", index=False)
 coins = pd.read_csv("output.csv")
 coins.head(10)
 
-sns.scatterplot(x="latitude",y="longitude",data=coins)
+sns.scatterplot(x="mag",y="rms",data=coins)
 
 # test train split
-X = coins[["felt"]].to_numpy()
-y = coins[["mag"]].to_numpy()
+X = coins[["mag"]].to_numpy()
+y = coins[["rms"]].to_numpy()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 ## Import your favourite classifier and train it using the X_train data and hte y_train labels
