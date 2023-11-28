@@ -96,6 +96,7 @@ for index, row in df.iterrows():
         fill_color='red').add_to(turkey_map_normal)
 
 turkey_map_normal.save("heatmap_map.html")
+print("Created map")
 
 
 
