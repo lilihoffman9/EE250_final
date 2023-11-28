@@ -3,6 +3,7 @@ import pandas as pd
 import folium
 from folium.plugins import HeatMap
 import paho.mqtt.client as mqtt
+import socket
 
 broker_address = "127.0.0.1"
 port = 1883

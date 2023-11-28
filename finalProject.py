@@ -2,6 +2,7 @@ import grovepi
 import time
 import sys
 import paho.mqtt.client as mqtt
+import socket
 
 
 broker_address = "192.168.64.1"
