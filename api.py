@@ -4,7 +4,10 @@ import folium
 import grovepi
 from folium.plugins import HeatMap
 from finalProject import *
+import paho.mqtt.client as mqtt
 
+MQTT_SERVER = "172.20.10.6"
+MQTT_PATH = "dist"
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -31,6 +34,25 @@ times = []
 lats = []
 lons = []
 weights = []
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+ 
+    # Subscribing in on_connect() means that if we lose the connection and
+    # reconnect then subscriptions will be renewed.
+    client.subscribe(MQTT_PATH)
+ 
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print(msg.topic+" "+str(msg.payload))
+    # more callbacks, etc
+ 
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(MQTT_SERVER)
+client.loop_start()   #use this line if you want to write any more code here
 
 for feature in features:
     places.append(feature['properties']['place'])
