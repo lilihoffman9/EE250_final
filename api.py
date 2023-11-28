@@ -12,7 +12,7 @@ topic = "sensor/data"
 # Callback when a message is received
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
-    max_radius_km = (msg.payload*10).decode()
+    max_radius_km = (int(msg.payload)*10).decode()
     print(f"Set max radius: {max_radius_km}")
 
 pd.set_option('display.max_columns', None)
