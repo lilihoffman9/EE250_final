@@ -47,7 +47,7 @@ min_magnitude = 3
 latitude = 34.0224
 longitude = -118.3
 
-url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
+url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&radius={radius}')
 dataset = url.json()
 
 features = dataset['features']
