@@ -14,7 +14,7 @@ radius = 1500
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
     radius = (int(msg.payload)*1000)
-    print(f"Set max radius: {max_radius_km}")
+    print(f"Set max radius: {radius}")
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -34,6 +34,8 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 # Subscribe to the topic
 client.subscribe(topic)
 
+# Start the MQTT loop to listen for messages
+client.loop_forever()
 
 start_time = 'now-180days'
 min_magnitude = 3
@@ -95,7 +97,6 @@ for index, row in df.iterrows():
 
 turkey_map_normal.save("heatmap_map.html")
 
-# Start the MQTT loop to listen for messages
-client.loop_forever()
+
 
 
