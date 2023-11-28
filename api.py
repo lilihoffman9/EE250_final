@@ -4,8 +4,13 @@ import folium
 from folium.plugins import HeatMap
 import paho.mqtt.client as mqtt
 
-MQTT_SERVER = "172.20.10.6"
-MQTT_PATH = "dist"
+broker_address = "192.168.64.5"
+port = 1883
+topic = "sensor_data"
+
+# Callback when a message is received
+def on_message(client, userdata, msg):
+    print(f"Received sensor data: {msg.payload.decode()}")
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -13,7 +18,20 @@ pd.set_option('display.float_format', lambda x: '%.3f' % x)
 pd.set_option('display.expand_frame_repr', False)
 pd.set_option('display.width', 500)
 
-print(finalProject.range_val)
+# Create a MQTT client
+client = mqtt.Client()
+
+# Set up the callback
+client.on_message = on_message
+
+# Connect to the broker
+client.connect(broker_address, port, 60)
+
+# Subscribe to the topic
+client.subscribe(topic)
+
+# Start the MQTT loop to listen for messages
+client.loop_forever()
 
 start_time = 'now-180days'
 min_magnitude = 3
