@@ -1,9 +1,10 @@
 import requests
 import pandas as pd
-import folium
-from folium.plugins import HeatMap
 import pickle
 import numpy as np
+import paho.mqtt.client as mqtt
+import socket
+import time
 
 from matplotlib import pyplot as plt
 plt.rcParams['figure.figsize'] = (10,7)
