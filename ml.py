@@ -19,8 +19,6 @@ pd.set_option('display.float_format', lambda x: '%.3f' % x)
 pd.set_option('display.expand_frame_repr', False)
 pd.set_option('display.width', 500)
 
-print(finalProject.range_val)
-
 start_time = 'now-180days'
 min_magnitude = 3
 latitude = 34.0224
