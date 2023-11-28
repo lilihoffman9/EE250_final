@@ -4,9 +4,9 @@ import sys
 import paho.mqtt.client as mqtt
 
 
-broker_address = "192.168.64.1"
+broker_address = "127.0.0.1"
 #172.20.10.6 (or 2)
-#127.0.0.1
+#192.168.64.1
 port = 1883
 topic = "sensor_data"
 range_val = 5
