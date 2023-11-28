@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 import folium
 from folium.plugins import HeatMap
-from finalProject import *
 import paho.mqtt.client as mqtt
 
 MQTT_SERVER = "172.20.10.6"
