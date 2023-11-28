@@ -52,7 +52,7 @@ df = pd.DataFrame(data)
 
 df.to_csv("output.csv", index=False)
 
-coins = pd.read_csv("coins.csv")
+coins = pd.read_csv("output.csv")
 coins.head(10)
 
 sns.scatterplot(x="reflectance",y="weight",data=coins, hue="denomination")
