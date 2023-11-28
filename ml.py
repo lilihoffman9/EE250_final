@@ -22,6 +22,7 @@ run_ml = 0
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
     radius = (int(msg.payload)*1000)
+    global run_ml
     run_ml = 1
     print(f"Set max radius: {radius}")
 
