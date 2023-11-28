@@ -1,10 +1,21 @@
 import grovepi
 import time
 import sys
-import paho.mqtt.publish as publish
+import paho.mqtt.client as mqtt
 
-MQTT_SERVER = "192.168.64.5"
-MQTT_PATH = "dist"
+broker_address = "192.168.64.5"
+port = 1883
+topic = "sensor_data"
+range_val = 5
+
+def read_sensor_data():
+    return grovepi.ultrasonicRead(ultrasonic_ranger)
+    
+# Create a MQTT client
+client = mqtt.Client()
+
+# Connect to the broker
+client.connect(broker_address, port, 60)
 
 # set I2C to use the hardware bus
 grovepi.set_bus("RPI_1")
@@ -21,10 +32,11 @@ while True:
         # Read distance value from Ultrasonic
         if(grovepi.digitalRead(button_port)):
         	time.sleep(0.1)
-        	range_val = grovepi.ultrasonicRead(ultrasonic_ranger)
+        	range_val = read_sensor_data()
+        	time.sleep(0.1)
+        	client.publish(topic, payload=str(sensor_data), qos=0)
         	time.sleep(0.1)
         	print(range_val)
-        	publish.single(MQTT_PATH, range_val, hostname=MQTT_SERVER)
     except Exception as e:
         print ("Error:{}".format(e))
     
