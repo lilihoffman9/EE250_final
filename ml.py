@@ -2,8 +2,6 @@ import requests
 import pandas as pd
 import folium
 from folium.plugins import HeatMap
-from finalProject import *
-
 import pickle
 
 import numpy as np
