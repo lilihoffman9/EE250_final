@@ -88,8 +88,6 @@ while True:
 	plotdata = pd.read_csv("output.csv")
 	plotdata.head(10)
 	
-	sns.scatterplot(x="Magnitude",y="Tsu",data=plotdata)
-	
 	# test train split
 	X = plotdata[['Latitude', 'Longitude']]
 	y = plotdata[['Magnitude']]
