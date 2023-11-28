@@ -4,7 +4,7 @@ import folium
 from folium.plugins import HeatMap
 import paho.mqtt.client as mqtt
 
-broker_address = "192.168.64.5"
+broker_address = "172.20.10.6"
 port = 1883
 topic = "sensor_data"
 
