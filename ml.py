@@ -21,7 +21,6 @@ radius = 1500
 def on_message(client, userdata, msg):
     print(f"Received sensor data: {msg.payload.decode()}")
     radius = (int(msg.payload)*1000)
-    make_map = 1
     print(f"Set max radius: {radius}")
 
 pd.set_option('display.max_columns', None)
@@ -47,7 +46,7 @@ min_magnitude = 3
 latitude = 34.0224
 longitude = -118.3
 
-url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&radius={radius}')
+url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={radius}')
 dataset = url.json()
 
 features = dataset['features']
@@ -96,10 +95,6 @@ while True:
 	y = plotdata[['Magnitude']]
 	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 	print(X_train.shape, X_test.shape, y_train.shape, X_test.shape)
-	
-	# X = plotdata[["Magnitude"]].to_numpy()
-	# y = plotdata[["RMS"]].to_numpy()
-	# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 	
 	from sklearn.linear_model import LinearRegression
 	
