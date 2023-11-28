@@ -9,17 +9,9 @@ broker_address = "eclipse.usc.edu"
 port = 1883
 topic = "sensor/data"
 
-start_time = 'now-180days'
-min_magnitude = 3
-latitude = 34.0224
-longitude = -118.3
-max_radius_km = 1500
-
-
 # Callback when a message is received
 def on_message(client, userdata, msg):
-    max_radius_km = msg.payload
-    print(f"Received sensor data: {msg.payload.decode()}" + "radius: " + msg.payload)
+    print(f"Received sensor data: {msg.payload.decode()}")
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -42,7 +34,11 @@ client.subscribe(topic)
 # Start the MQTT loop to listen for messages
 client.loop_forever()
 
-
+start_time = 'now-180days'
+min_magnitude = 3
+latitude = 34.0224
+longitude = -118.3
+max_radius_km = 1500
 
 url = requests.get(f'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_time}&minmagnitude={min_magnitude}&latitude={latitude}&longitude={longitude}&maxradiuskm={max_radius_km}')
 dataset = url.json()
@@ -66,7 +62,7 @@ def on_connect(client, userdata, flags, rc):
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    print(msg.topic+" "+str(msg.payload) + "radius: " + msg.payload)
     # more callbacks, etc
  
 
