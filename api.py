@@ -68,7 +68,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect(broker_address)
+client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
 client.loop_start()   #use this line if you want to write any more code here
 
 for feature in features:

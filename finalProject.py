@@ -20,7 +20,7 @@ client = mqtt.Client()
 
 # Connect to the broker
 time.sleep(5) 
-client.connect(broker_address, port, keepalive=60)
+client.connect(host="eclipse.usc.edu", port, keepalive=60)
 
 # set I2C to use the hardware bus
 grovepi.set_bus("RPI_1")
