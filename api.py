@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 import socket
 
 broker_address = "eclipse.usc.edu"
-port = 11000
+port = 1883
 topic = "sensor_data"
 
 # Callback when a message is received
@@ -26,7 +26,7 @@ client = mqtt.Client()
 client.on_message = on_message
 
 # Connect to the broker
-client.connect(broker_address, port, 60)
+client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 
 # Subscribe to the topic
 client.subscribe(topic)
@@ -65,11 +65,6 @@ def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
     # more callbacks, etc
  
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
-client.loop_start()   #use this line if you want to write any more code here
 
 for feature in features:
     places.append(feature['properties']['place'])

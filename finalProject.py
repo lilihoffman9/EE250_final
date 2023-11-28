@@ -8,7 +8,7 @@ import socket
 broker_address = "eclipse.usc.edu"
 #172.20.10.6 (or 2)
 #127.0.0.1
-port = 11000
+port = 1883
 topic = "sensor_data"
 range_val = 5
 
@@ -20,7 +20,7 @@ client = mqtt.Client()
 
 # Connect to the broker
 time.sleep(5) 
-client.connect(host="eclipse.usc.edu", port, keepalive=60)
+client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 
 # set I2C to use the hardware bus
 grovepi.set_bus("RPI_1")
