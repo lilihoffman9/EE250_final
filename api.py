@@ -34,8 +34,6 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 # Subscribe to the topic
 client.subscribe(topic)
 
-# Start the MQTT loop to listen for messages
-client.loop_start()
 
 start_time = 'now-180days'
 min_magnitude = 3
@@ -96,4 +94,8 @@ for index, row in df.iterrows():
         fill_color='red').add_to(turkey_map_normal)
 
 turkey_map_normal.save("heatmap_map.html")
+
+# Start the MQTT loop to listen for messages
+client.loop_forever()
+
 
