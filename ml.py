@@ -4,10 +4,10 @@ import numpy as np
 import paho.mqtt.client as mqtt
 import socket
 import time
+import seaborn as sns
 
 from matplotlib import pyplot as plt
 plt.rcParams['figure.figsize'] = (10,7)
-import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 
@@ -114,9 +114,10 @@ while True:
 	scores['R^2'].append(r2)
 		
 	print("R^2: {:.2f}, MSE: {:.2f}".format(r2, mse))
-		
-	import seaborn as sns
-	import matplotlib.pyplot as plt
+
+	new_data = [[latitude-(radius/2), longitude-(radius/2)], [latitude+(radius/2), longitude+(radius/2)]]
+	new_pred = regressor.predict(new_data)
+	print("New predictions:", new_pred)
 		
 	# Plot the regression line
 	sns.regplot(x=X_test['Latitude'], y=y_test, color='blue', scatter_kws={'s': 10})
