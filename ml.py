@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-import pickle
 import numpy as np
 import paho.mqtt.client as mqtt
 import socket
