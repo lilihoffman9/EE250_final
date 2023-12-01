@@ -1,4 +1,5 @@
 import requests
+import pickle
 import pandas as pd
 import numpy as np
 import paho.mqtt.client as mqtt
